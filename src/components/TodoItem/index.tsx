@@ -9,8 +9,8 @@ type Props = {
 };
 
 export default function TodoItem({ item, id }: Props) {
-  const [showEdit, setShowEdit] = React.useState(false);
   const deleteItem = useStoreActions((actions) => actions.removeItem);
+  const [showEdit, setShowEdit] = React.useState(false);
 
   const handleClose = () => setShowEdit(false);
 

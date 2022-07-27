@@ -1,10 +1,11 @@
 import { StoreProvider } from "easy-peasy";
 import store from "./store";
+import { useStoreState } from "./store/hooks";
+import { useStoreRehydrated } from "easy-peasy";
 import { useEffect } from "react";
 import { Col, Container, Navbar, NavbarBrand } from "react-bootstrap";
 import AddItem from "./components/AddItem";
 import TodoItem from "./components/TodoItem";
-import { useStoreState } from "./store/hooks";
 
 type Props = StoreProvider["props"] & { children: React.ReactNode };
 
@@ -12,12 +13,13 @@ const StoreProviderCasted = StoreProvider as unknown as React.ComponentType<Prop
 
 const Content = () => {
   const items = useStoreState((state) => state.items);
+  const isRehydrated = useStoreRehydrated();
 
   useEffect(() => {
     console.log(items);
   }, [items]);
 
-  return (
+  return isRehydrated ? (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <Navbar bg="light">
         <div className="container-fluid">
@@ -48,6 +50,8 @@ const Content = () => {
         </div>
       </footer>
     </div>
+  ) : (
+    <div>Loading...</div>
   );
 };
 
